@@ -1,0 +1,88 @@
+// Entités principales
+entity Membre {
+  nom String
+  prenom String
+  adresse String
+  numeroTelephone String
+  adresseEmail String
+  dateAdhesion LocalDate
+  statutMembre StatutMembre
+}
+
+entity Cotisation {
+  montant Double
+  datePaiement LocalDate
+  statutPaiement StatutPaiement
+}
+
+entity FonctionMembre {
+  nom String
+  description String
+}
+
+entity TypeCotisation {
+  nom String
+  description String
+  montant Double
+}
+
+entity Evenement {
+  nom String
+  dateEvenement LocalDate
+  lieu String
+  description String
+  fraisParticipation Double
+  dateLimiteInscription LocalDate
+}
+
+entity Notification {
+  sujet String
+  contenu String
+  dateEnvoi LocalDateTime
+  statutNotification StatutNotification
+}
+
+entity SanctionDisciplinaire {
+  description String
+  montantAmende Double
+  dateSanction LocalDate
+  statutAmende StatutPaiement
+}
+
+enum StatutMembre {
+    ACTIF, INACTIF, SUSPENDU
+}
+
+enum StatutPaiement {
+    PAYE, EN_ATTENTE, ANNULE
+}
+
+enum StatutNotification {
+    LU, NON_LUE, ARCHIVEE
+}
+
+entity ParametresNotification {
+  preferencesNotification String
+  frequenceNotification String
+}
+
+entity BeneficiaireCotisation {
+  montantBeneficiaire Double
+  datePrecise LocalDate
+}
+
+// Relations
+relationship ManyToOne {
+  Cotisation{membre} to Membre
+  Cotisation{typeCotisation} to TypeCotisation
+  Notification{membre} to Membre
+  ParametresNotification{membre} to Membre
+  BeneficiaireCotisation{membre} to Membre
+  BeneficiaireCotisation{typeCotisation} to TypeCotisation
+  SanctionDisciplinaire{membre} to Membre
+}
+
+relationship ManyToMany {
+  Membre{fonctionMembre} to FonctionMembre{membres}
+  Membre{evenements(participation)} to Evenement{participants}
+}
