@@ -1,0 +1,2 @@
+org.springframework.test.context.ContextCustomizerFactory = com.bon_nde.\
+    bon_nde_app.config.SqlTestContainersSpringContextCustomizerFactory
